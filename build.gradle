@@ -4,6 +4,12 @@ plugins {
 	id 'java'
 }
 
+ext {
+	slf4jVersion = "1.7.30"
+	logbackVersion = "1.2.3"
+	lombokVersion = "1.18.18"
+}
+
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
@@ -13,7 +19,20 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation("org.springframework.boot:spring-boot-starter-web")
+
+	// log
+	implementation("org.slf4j:slf4j-api:${slf4jVersion}")
+	implementation("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
+
+	// lombok
+	compileOnly("org.projectlombok:lombok:${lombokVersion}")
+	annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
+	// logback json
+	implementation("ch.qos.logback.contrib:logback-json-classic:0.1.5")
+	implementation("ch.qos.logback.contrib:logback-jackson:0.1.5")
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
