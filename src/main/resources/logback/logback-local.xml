@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>[%d{yyyy:MM:dd HH:mm:ss.SSS}] [%-5level] [%thread] [%C{36}] [%M] [%line] [%mdc]- %msg %n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+
+    <file>${application.log.dir:-logs}/application.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${application.log.dir:-logs}/application.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>100mb</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="com.banksalad.collectmydata.common.logging.CollectLogbackPatternLayout">
+        <pattern>[%d{yyyy:MM:dd HH:mm:ss.SSS}] [%-5level] [%thread] [%C{36}] [%M] [%line] [%mdc]- %msg %n
+        </pattern>
+      </layout>
+    </encoder>
+  </appender>
+
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="com.example.logback.controller" level="TRACE"/>
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</configuration>
